@@ -362,6 +362,7 @@
         temphotspot.searchText = "debug"
         temphotspot.location = 1
         temphotspot.interactParameters = New List(Of Integer)
+        hotspots.Add(temphotspot)
     End Sub
 
 
