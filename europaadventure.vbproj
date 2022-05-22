@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>europaadventure</RootNamespace>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <StartupObject>Sub Main</StartupObject>
+    <Version>0.0.5</Version>
+    <PackageId>esconeuropa</PackageId>
+    <Authors>Xeno1701 // Dagan Harris</Authors>
+    <Product>Escapade On Europa</Product>
+    <Description>Escapade On Europa is a console text adventure game with a touch of survival gameplay and a truckload of Sci-Fi. You were in stasis in a shuttle on a mining expedition. The shuttle engines overheated, causing the shuttle to spin out of control and crash in a fiery explosion on Europa. The shuttle is in disrepair, the crew and many components are missing. In order to escape, you need to rebuild the ship. Beware however! Radiation is everywhere, and unfiendly life was detected here last year! You may enounter something.</Description>
+    <Copyright>Literally no legal mechanism for copyright. :)</Copyright>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic">
+      <HintPath>..\..\..\..\..\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\LiveShare\Agent\Microsoft.VisualBasic.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
