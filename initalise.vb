@@ -1,6 +1,68 @@
 ﻿Module initalise
     Public IsDebugMode As Boolean = False
     Public IsInvunerable As Boolean = False
+    Public Structure room
+        'variables for room structure.
+        Dim code As Integer
+        Dim name As String
+        Dim text As String
+        Dim radiolevel As Double ' In counts per second
+        Dim exitNorth As Integer
+        Dim exitSouth As Integer
+        Dim exitEast As Integer
+        Dim exitWest As Integer
+        Dim items As List(Of item)
+        Dim enemies As List(Of enemy)
+        Dim hotspots As List(Of hotspot)
+    End Structure
+    Public Structure hotspot
+        ' variables for hotspot structure
+        Dim code As Integer
+        Dim name As String
+        Dim text As String
+        Dim location As Integer
+        Dim searchText As String
+        Dim searchEvent As _Event
+        Dim interactsWith As Integer
+        Dim interactionEvent As _Event
+        Dim interactParameters As List(Of Integer)
+    End Structure
+    Public Structure enemy
+        ' variables for enemy structure
+        Dim code As Integer
+        Dim type As Double
+        Dim health As Double
+        Dim atk As Double
+        Dim def As Double
+        Dim speed As Double
+        Dim name As String
+        Dim text As String
+        Dim startlocation As Integer
+        Dim probablilty As Double
+        Dim enemysinv As List(Of item)
+    End Structure
+    Public Structure item
+        ' variables for item structure
+        Dim code As Integer
+        Dim name As String
+        Dim text As String
+        Dim type As Integer ' 0 is generic, 1 is food, 2+ is weapon, -1 is effector
+        Dim pickuptext As String
+        Dim itemradiolevel As Double ' In counts per second
+        Dim startlocation As Integer
+        Dim active As Boolean
+    End Structure
+    Public Structure Combineditems
+        Dim code As Integer
+        Dim name As String
+        Dim text As String
+        Dim item1 As Integer ' Item Code
+        Dim item2 As Integer ' Item Code
+        Dim pickuptext As String
+        Dim itemradiolevel As Double ' In counts per second
+        Dim active As Boolean
+
+    End Structure
 
     Public Sub initialiseall(Rooms As Boolean, Items As Boolean, Hotspots As Boolean, CombatEnemies As Boolean)
         If Rooms = True Then
@@ -25,8 +87,19 @@
 
         Dim tempItem As item
 
+        tempItem.code = -1
+        tempItem.name = "Melee"
+        tempItem.type = 2
+        tempItem.text = ""
+        tempItem.pickuptext = ""
+        tempItem.itemradiolevel = 0
+        tempItem.startlocation = 99
+        tempItem.active = False
+        ItemList.Add(tempItem)
+
         tempItem.code = 1
         tempItem.name = "A Europan Pebble"
+        tempItem.type = 4
         tempItem.text = "A dense, sparkly pebble with a slighly cystalized, sharp edge - this is a very good tool or weapon."
         tempItem.pickuptext = "The europan pebble had a smooth texture as you held it, as "
         tempItem.itemradiolevel = 0.1
@@ -36,6 +109,7 @@
 
         tempItem.code = 2
         tempItem.name = "A Metal hull plating peice"
+        tempItem.type = 0
         tempItem.text = "A sturdy, charred peice of your shuttle's hull. Too bad it crashed - so much for DIY engine repair at the space station."
         tempItem.pickuptext = "The charred hull peice was jagged edged, you nearly cur yourself a lot before "
         tempItem.itemradiolevel = 0.7
@@ -45,6 +119,7 @@
 
         tempItem.code = 3
         tempItem.name = "A blue Energy Crystal"
+        tempItem.type = 0
         tempItem.text = "A very rare mesmorisingly complex crystal from the dark side of Europa. Packed full of chemical energy according to your sensors; could be used as fuel for a ship."
         tempItem.pickuptext = "The crystal glowed so bright it lit up a wide area. Mesmorising as it was, "
         tempItem.itemradiolevel = 0.2
@@ -54,6 +129,7 @@
 
         tempItem.code = 4
         tempItem.name = "A red Energy Crystal"
+        tempItem.type = 0
         tempItem.text = "A very rare mesmorisingly complex crystal from the caves of Europa. Packed full of self regulating energy according to your sensors; could be used as a computer's power supply."
         tempItem.pickuptext = "The crystal glowed in complex pulses, one after another. Mesmorising as it was, "
         tempItem.itemradiolevel = 1.7
@@ -62,7 +138,8 @@
         ItemList.Add(tempItem)
 
         tempItem.code = 5
-        tempItem.name = "Some SpaceQ Standard 'Grandma's roofslate cracker recipe' food rations."
+        tempItem.name = "A SpaceQ Standard food ration pack."
+        tempItem.type = 2
         tempItem.text = "The wrapper was overly hard to open, and the sawdust-like crumbs covering the abhorrent cracker looked more unappetising than a bowl of blood."
         tempItem.pickuptext = "You picked up the crinkly packet, "
         tempItem.itemradiolevel = 0.007
@@ -71,7 +148,8 @@
         ItemList.Add(tempItem)
 
         tempItem.code = 6
-        tempItem.name = "Some SpaceQ Standard 'Grandma's roofslate cracker recipe' food rations."
+        tempItem.name = "A crewmate-cooked food ration pack."
+        tempItem.type = 2
         tempItem.text = "The wrapper was overly hard to open, and the sawdust-like crumbs covering the abhorrent cracker looked more unappetising than a bowl of blood."
         tempItem.pickuptext = "You picked up the crinkly packet, "
         tempItem.itemradiolevel = 0.007
@@ -80,7 +158,8 @@
         ItemList.Add(tempItem)
 
         tempItem.code = 7
-        tempItem.name = "Some SpaceQ Standard 'Grandma's roofslate cracker recipe' food rations."
+        tempItem.name = "A homemade lunch."
+        tempItem.type = 2
         tempItem.text = "The wrapper was overly hard to open, and the sawdust-like crumbs covering the abhorrent cracker looked more unappetising than a bowl of blood."
         tempItem.pickuptext = "You picked up the crinkly packet, "
         tempItem.itemradiolevel = 0.007
@@ -90,6 +169,7 @@
 
         tempItem.code = 8
         tempItem.name = "An Unknown Metal Ore"
+        tempItem.type = 2
         tempItem.text = "A very heavy, weirdly textured metal, that according to your sensors is radioactve and has a very complex silicon matrix within the metal."
         tempItem.pickuptext = "The ore was loose enough to pull away, into your hands. Now the proud owner, "
         tempItem.itemradiolevel = 17
@@ -99,6 +179,7 @@
 
         tempItem.code = 9
         tempItem.name = "A SpaceQ Standard LED flashlight"
+        tempItem.type = 0
         tempItem.text = "A remarkably standard flashlight, except for the fact that it is covered by advertisments."
         tempItem.pickuptext = "The simple device was plastered with ads, but was sturdy. After testing it worked, "
         tempItem.itemradiolevel = 0.009
@@ -108,6 +189,7 @@
 
         tempItem.code = 10
         tempItem.name = "A SpaceQ Anti-Radiation Pendant"
+        tempItem.type = -1
         tempItem.text = "A small round stone on a string, with the SpaceQ logo on the label."
         tempItem.pickuptext = "This pendant would come in handy, so "
         tempItem.itemradiolevel = -5
@@ -115,16 +197,26 @@
         tempItem.active = False
         ItemList.Add(tempItem)
 
+        tempItem.code = 10
+        tempItem.name = "A Mysterious Alien Longsword"
+        tempItem.type = 6
+        tempItem.text = "A mysterious crystal embedded metal longsword that shimmered beautiful in the Sun."
+        tempItem.pickuptext = "The pure and intricate beauty of the sword made you almost not want to put it away, however  "
+        tempItem.itemradiolevel = 0.0002
+        tempItem.startlocation = 6
+        tempItem.active = False
+        ItemList.Add(tempItem)
+
         ' ---------------- ------ START COMBINED ITEM INIT -------------------------
 
         Dim tempCombinedItemList As Combineditems
 
-        tempCombinedItemList.code = 11
+        tempCombinedItemList.code = 5
         tempCombinedItemList.name = "A Rudamentary Power Supply"
         tempCombinedItemList.text = "The red crystal and the psuedo-crystalline nature of the pebble has created a pretty good self sustaining power source."
         tempCombinedItemList.pickuptext = "You thought you should probably take this with you, "
-        tempCombinedItemList.item1 = 10 ' 1
-        tempCombinedItemList.item1 = 1 ' 4
+        tempCombinedItemList.item1 = 1
+        tempCombinedItemList.item1 = 4
         tempCombinedItemList.itemradiolevel = 2
         tempCombinedItemList.active = False
         Combineditemlist.Add(tempCombinedItemList)
@@ -316,8 +408,8 @@
 
         enemies.code = 1 'Individual identifier
         enemies.type = 1 'Used as a damage and defense multiplier - higher the number, better the combat skill
-        enemies.health = (enemies.type * 100) 'Calculated by multiplying type by 100
-        enemies.name = "A Corrupted Crewmate"
+        enemies.health = (enemies.type * 10) 'Calculated by multiplying type by 10
+        enemies.name = "Dying Corrupted Crewmate"
         enemies.text = "Horrid gasses and high radiation have caused this member of your crew to turn hostile toward others not like themselves."
         enemies.startlocation = 2
         enemies.probablilty = 1
@@ -325,8 +417,8 @@
 
         enemies.code = 2 'Individual identifier
         enemies.type = 1 'Used as a damage and defense multiplier - higher the number, better the combat skill
-        enemies.health = (enemies.type * 100) 'Calculated by multiplying type by 100
-        enemies.name = "A Corrupted Crewmate"
+        enemies.health = (enemies.type * 10) 'Calculated by multiplying type by 10
+        enemies.name = "Bleeding Corrupted Crewmate"
         enemies.text = "Horrid gasses and high radiation have caused this member of your crew to turn hostile toward others not like themselves."
         enemies.startlocation = 2
         enemies.probablilty = 1
@@ -334,8 +426,8 @@
 
         enemies.code = 3 'Individual identifier
         enemies.type = 2 'Used as a damage and defense multiplier - higher the number, better the combat skill
-        enemies.health = (enemies.type * 100) 'Calculated by multiplying type by 100
-        enemies.name = "A Quite Corrupted Crewmate"
+        enemies.health = (enemies.type * 10) 'Calculated by multiplying type by 10
+        enemies.name = "Gaunt Corrupted Crewmate"
         enemies.text = "Horrid gasses and high radiation have caused this member of your crew to turn hostile toward others, and is a lot stronger."
         enemies.startlocation = 2
         enemies.probablilty = 1
@@ -343,9 +435,9 @@
 
         enemies.code = 4 'Individual identifier
         enemies.type = 3 'Used as a damage and defense multiplier - higher the number, better the combat skill
-        enemies.health = (enemies.type * 100) 'Calculated by multiplying type by 100
-        enemies.name = "A Heavily Corrupted Crewmate"
-        enemies.text = "Horrid gasses and high radiation have caused this member of your crew to turn hostile toward others, and is very strong - exposure to this cretaure induces radiation sickness."
+        enemies.health = (enemies.type * 10) 'Calculated by multiplying type by 10
+        enemies.name = "Undead Corrupted Crewmate"
+        enemies.text = "Horrid gasses and high radiation have caused this member of your crew to turn hostile toward others, and is very strong - exposure to this creature induces radiation sickness."
         enemies.startlocation = 2
         enemies.probablilty = 1
         enemies.enemysinv = New List(Of item)

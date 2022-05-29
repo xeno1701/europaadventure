@@ -14,7 +14,7 @@
             debugp("Where would you like to teleport. (And by that I mean a room code..)")
             Try
                 Dim inputstr As Integer = read()
-                player.currentRoom = rooms(inputstr)
+                player.currentRoom = rooms(inputstr - 1)
             Catch
                 debugp("Something went a bit wrong then.")
                 print("Type a COMMAND to continue.")

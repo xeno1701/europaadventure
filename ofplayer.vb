@@ -1,4 +1,12 @@
 ﻿Module ofplayer
+    Public Structure playablecharacter
+        Dim health As Double
+        Dim currentRoom As room
+        Dim atk As Double
+        Dim def As Double
+        Dim speed As Double
+    End Structure
+
     Public Sub radiation()
         countspermin = (player.currentRoom.radiolevel + Averageinventoryradiation()) * 60
         If countspermin > 10 Then

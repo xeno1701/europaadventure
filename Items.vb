@@ -1,5 +1,6 @@
 ﻿Module Items
 
+
     Public Sub itemsInRooms() ' takes items in "itemlist" (just a universal "census" for all items) and places them in their respective rooms
         For Each i In ItemList
             For Each r In rooms
@@ -140,7 +141,7 @@
                 End If
             Next
 
-            If item1.code = 5 Or item1.code = 6 Or item1.code = 7 Then
+            If item1.type = 2 Then
                 print("You can't craft things with food!")
             End If
 
@@ -157,7 +158,7 @@
                     If item2.code = item1.code Then
                         print("You have already chosen this item!")
                         alreadyused = True
-                    ElseIf item2.code = 5 Or item1.code = 6 Or item1.code = 7 Then
+                    ElseIf item2.type = 2 Then
                         print("You can't craft things with food!.")
                     Else
                         seconditemfound = True

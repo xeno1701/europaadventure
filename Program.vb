@@ -1,66 +1,6 @@
 ﻿Imports System
 
 Module Program
-    Public Structure room
-        'variables for room structure.
-        Dim code As Integer
-        Dim name As String
-        Dim text As String
-        Dim radiolevel As Double ' In counts per second
-        Dim exitNorth As Integer
-        Dim exitSouth As Integer
-        Dim exitEast As Integer
-        Dim exitWest As Integer
-        Dim items As List(Of item)
-        Dim enemies As List(Of enemy)
-        Dim hotspots As List(Of hotspot)
-    End Structure
-
-    Public Structure item
-        ' variables for item structure
-        Dim code As Integer
-        Dim name As String
-        Dim text As String
-        Dim pickuptext As String
-        Dim itemradiolevel As Double ' In counts per second
-        Dim startlocation As Integer
-        Dim active As Boolean
-    End Structure
-
-    Public Structure Combineditems
-        Dim code As Integer
-        Dim name As String
-        Dim text As String
-        Dim item1 As Integer ' Item Code
-        Dim item2 As Integer ' Item Code
-        Dim pickuptext As String
-        Dim itemradiolevel As Double ' In counts per second
-        Dim active As Boolean
-
-    End Structure
-    Public Structure hotspot
-        Dim code As Integer
-        Dim name As String
-        Dim text As String
-        Dim location As Integer
-        Dim searchText As String
-        Dim searchEvent As _Event
-        Dim interactsWith As Integer
-        Dim interactionEvent As _Event
-        Dim interactParameters As List(Of Integer)
-    End Structure
-
-    Public Structure enemy
-        ' variables for enemy structure
-        Dim code As Integer
-        Dim type As Double
-        Dim health As Double
-        Dim name As String
-        Dim text As String
-        Dim startlocation As Integer
-        Dim probablilty As Double
-        Dim enemysinv As List(Of item)
-    End Structure
 
     Public Structure textforprocessing
         ' variables for processing textobject
@@ -71,10 +11,6 @@ Module Program
 
     End Structure
 
-    Public Structure playablecharacter
-        Dim health As Double
-        Dim currentRoom As room
-    End Structure
 
 
     'variables for rooms and which room player is in.
