@@ -165,16 +165,15 @@
                         alreadyused = False
                     End If
                     If alreadyused = False Then
+                        Dim counter As Integer = 0
                         For Each c In Combineditemlist
                             If item1.code + item2.code = c.code Then
+                                Combineditemlist.RemoveAt(counter)
                                 playercombinv.Add(c)
-                                item1.startlocation = 99
                                 playerinv.Remove(item1)
-                                item2.startlocation = 99
                                 playerinv.Remove(item2)
-
-
                             End If
+                            counter = counter + 1
                         Next
                         print("You tried for a while, and eventually created a useful item, which is now in your bag. (Item crafted.)")
                     Else

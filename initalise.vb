@@ -1,9 +1,16 @@
 ﻿Module initalise
     Public IsDebugMode As Boolean = False
     Public IsInvunerable As Boolean = False
+    Enum Region
+        Surface
+        DarkSide
+        Underground
+        None
+    End Enum
     Public Structure room
         'variables for room structure.
         Dim code As Integer
+        Dim Region As Region
         Dim name As String
         Dim text As String
         Dim radiolevel As Double ' In counts per second
@@ -258,6 +265,7 @@
         rooms(0).name = "the Shuttle crash site/Crater"
         rooms(0).text = "You are in the giant crater made when your space shuttle crash-landed. It is about 50 metres deep, and about 150 metres across." &
             " "
+        rooms(0).Region = Region.Surface
         rooms(0).radiolevel = 0.2
         rooms(0).exitNorth = 2
         rooms(0).exitWest = 2
